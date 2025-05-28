@@ -285,5 +285,5 @@
 
 /* When messages-sidebar is expanded, push main content further right */
 .messages-sidebar:not(.collapsed) + .profile-page {
-    margin-left: 488px; /* 68px fixed + 220px expanded */
+    margin-left: 288px; /* 68px fixed + 220px expanded */
 }

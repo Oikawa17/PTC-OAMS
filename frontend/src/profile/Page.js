@@ -150,7 +150,7 @@ function Profile() {
   };
 
   return (
-    <div>
+       <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Tabbar
         profile={{ ...profile, profile_pic: profilePic || profile.profile_pic }}
         isSidebarCollapsed={isSidebarCollapsed}

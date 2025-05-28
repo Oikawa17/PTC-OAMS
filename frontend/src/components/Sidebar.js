@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
-// filepath: c:\Users\judie\Downloads\PROJECT OAMSIM\OAMSIM\frontend\src\components\TabBar.js
 import logo from '../dashboard/assets/logo-ptc.png'; // Adjust path as needed
 
 // Fixed green sidebar component using PNG icons and ptclogo
@@ -50,16 +49,24 @@ const buttons = [
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(true);
   const [hoveredButton, setHoveredButton] = useState(null);
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
   const navigate = useNavigate();
 
   const handleMouseEnter = () => setCollapsed(false);
   const handleMouseLeave = () => setCollapsed(true);
 
   const handleSignOut = () => {
-    if (window.confirm("Are you sure you want to sign out?")) {
-      localStorage.clear();
-      navigate("/");
-    }
+    setShowSignOutModal(true);
+  };
+
+  const confirmSignOut = () => {
+    setShowSignOutModal(false);
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const cancelSignOut = () => {
+    setShowSignOutModal(false);
   };
 
   return (
@@ -103,11 +110,24 @@ function Sidebar() {
               onBlur={() => setHoveredButton(null)}
               className={`sign-out-button ${hoveredButton === 'Sign Out' ? 'hovered' : ''}`}
             >
-              Sign Out
+              Log Out
             </button>
           </div>
         </div>
       </div>
+      {showSignOutModal && (
+        <div className="custom-modal-overlay">
+          <div className="custom-modal">
+            <div className="custom-modal-message">
+              Are you sure you want to log out of your account?
+            </div>
+            <div className="custom-modal-actions">
+              <button className="custom-modal-btn confirm" onClick={confirmSignOut}>Yes, Log Out</button>
+              <button className="custom-modal-btn cancel" onClick={cancelSignOut}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

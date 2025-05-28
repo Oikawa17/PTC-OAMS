@@ -224,4 +224,56 @@ body {
   }
 }
 
+/* Custom Modal Styles */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.custom-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px 28px 24px 28px;
+  box-shadow: 0 8px 32px rgba(44,120,29,0.18);
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.custom-modal-message {
+  font-size: 1.15rem;
+  color: #2c781d;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.custom-modal-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.custom-modal-btn {
+  padding: 8px 22px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.custom-modal-btn.confirm {
+  background: #2c781d;
+  color: #fff;
+}
+
+.custom-modal-btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
