@@ -125,15 +125,14 @@ function Profile() {
   // Sidebar margin
   const mainContentMarginLeft = isSidebarCollapsed ? 68 : 250;
 
-  // --- Get Complete Address in the same format as the application form ---
+  // --- Get Complete Address in the same format as the application form review ---
   const getCompleteAddress = () => {
-    // Show all address parts, including city/municipality and province, and zip
-    // Handles both string and object values
+    // Address Line 1, City, Province, Zip (skip empty fields)
     const address = profile.address || "";
+    // Prefer 'city', fallback to 'city_municipality'
     const city = profile.city || profile.city_municipality || "";
     const province = profile.province || "";
     const zip = profile.zip || "";
-  
     return [address, city, province, zip].filter(Boolean).join(", ");
   };
 
@@ -508,14 +507,21 @@ function Profile() {
                 />
               </div>
               <div style={{ margin: "18px 0 0 0" }}>
-                <label style={labelStyle}>Complete Address</label>
-                <input
-                  name="address"
-                  value={getCompleteAddress()}
-                  disabled
-                  style={inputStyle(false)}
-                />
-              </div>
+  <label style={labelStyle}>Complete Address</label>
+  <textarea
+    name="address"
+    value={getCompleteAddress()}
+    disabled
+    style={{
+      ...inputStyle(false),
+      minHeight: 48,
+      resize: "none",
+      overflow: "auto",
+      whiteSpace: "pre-line"
+    }}
+    rows={Math.max(2, getCompleteAddress().length > 60 ? 3 : 2)}
+  />
+</div>
               {/* Gender and Civil Status intentionally omitted */}
               <div style={{ display: "flex", gap: 16, marginTop: 36 }}>
                 <button
@@ -698,4 +704,3 @@ const modalInputStyle = {
 };
 
 export default Profile;
-// ...end of file...
