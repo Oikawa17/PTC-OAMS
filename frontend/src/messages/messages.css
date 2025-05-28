@@ -1,6 +1,5 @@
 .messages-container {
   display: flex;
-  margin-top: 70px;
   min-height: 60vh;
 }
 
@@ -208,6 +207,10 @@
   flex-direction: column;
   gap: 18px;
   max-height: 48vh;
+  max-height: 400px; /* Adjust height based on design */
+  overflow-y: auto; /* Enables scrolling within the message space */
+  padding: 10px;
+  scroll-behavior: smooth;
 }
 
 .message-row {
@@ -444,4 +447,19 @@
   .messages-faq-section {
     padding: 14px 4vw 10px 4vw;
   }
+  .message-row.system {
+  display: flex;
+  justify-content: flex-start; /* Align to the left */
+}
+
+.message-bubble.system {
+  background-color: white;
+  color: black;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 60%;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+}
+
 }

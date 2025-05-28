@@ -30,7 +30,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// GET profile info (include profile_pic and birthdate as string)
 router.get('/:applicationid', async (req, res) => {
   try {
     const { applicationid } = req.params;
@@ -39,18 +38,20 @@ router.get('/:applicationid', async (req, res) => {
         application_id,
         first_name, 
         last_name, 
+        middle_name,
         CONCAT(first_name, ' ', last_name) AS full_name, 
         email, 
         phone, 
         address, 
+        city,
+        province,
+        zip,
         profile_pic, 
         DATE_FORMAT(birthdate, '%Y-%m-%d') AS birthdate
       FROM student_info WHERE application_id = ?`,
       [applicationid]
     );
-    if (rows.length === 0) {
-      return res.status(404).json({ error: "Profile not found" });
-    }
+    if (rows.length === 0) { /* ... */ }
     res.json(rows[0]);
   } catch (err) {
     console.error(err);

@@ -515,7 +515,7 @@ function ApplicationForm() {
                     {errors.civilStatus && <span className="application-form-required">{errors.civilStatus}</span>}
                   </label>
                   <label className="application-form-label full-width">
-                    <span>Complete Address <span className="application-form-required">*</span></span>
+                    <span>Address Line 1<span className="application-form-required">*</span></span>
                     <input className="application-form-input" type="text" name="address" value={formData.address} onChange={handleChange} required />
                     {errors.address && <span className="application-form-required">{errors.address}</span>}
                   </label>
