@@ -34,6 +34,17 @@ router.post('/', (req, res) => {
     (err, result) => {
       if (err) return res.status(500).json({ error: 'Database error' });
       res.status(201).json({ id: result.insertId, application_id, sender, message });
+
+      // Send automated response
+      const automatedMessage = "Thank you for reaching out, the administrator is unavailable at the moment and will get back to you at 24-48 business hours. For general inquiries, please visit our FAQ page. If you require assistance, kindly refer to the school's support page at ptcoams.help.support.";
+      
+      db.query(
+        'INSERT INTO messages (application_id, sender, message) VALUES (?, ?, ?)',
+        [application_id, 'system', automatedMessage],
+        (autoErr) => {
+          if (autoErr) console.error('Error sending automated message:', autoErr);
+        }
+      );
     }
   );
 });
