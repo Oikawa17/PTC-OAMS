@@ -361,509 +361,516 @@ function ApplicationForm() {
   // Main Form (edit or new)
   return (
     <div>
-        <TabBar profile={profile} />
-    <div style={{ display: "flex" }}>
-      <Sidebar />
-      <div className="application-form-container" style={{ flex: 1 }}>
-        <div className="application-form-title">Application Form</div>
+      <TabBar profile={profile} />
+      <div style={{ display: "flex" }}>
+        <Sidebar />
+        <div className="application-form-container" style={{ flex: 1 }}>
+          <div className="application-form-title">Application Form</div>
 
-        {/* Status Bar */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            margin: "24px 0 32px 0",
-            justifyContent: "center",
-            gap: 0,
-          }}
-        >
-          {steps.map((s, idx) => (
-            <React.Fragment key={s.label}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  minWidth: 120,
-                  position: "relative",
-                  zIndex: 2,
-                }}
-              >
-                <div
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: "50%",
-                    background:
-                      idx === step
-                        ? "linear-gradient(135deg, #40db61 60%, #2c781d 100%)"
-                        : idx < step
-                        ? "#40db61"
-                        : "#e0e0e0",
-                    color: idx <= step ? "#fff" : "#888",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 700,
-                    fontSize: "1.2rem",
-                    marginBottom: 6,
-                    border:
-                      idx === step
-                        ? "2.5px solid #2c781d"
-                        : "2.5px solid #e0e0e0",
-                    transition: "all 0.2s",
-                    boxSizing: "border-box",
-                  }}
-                >
-                  {idx + 1}
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.98rem",
-                    color: idx === step ? "#2c781d" : "#888",
-                    fontWeight: idx === step ? 700 : 500,
-                    textAlign: "center",
-                    minWidth: 90,
-                    maxWidth: 120,
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {s.label}
-                </div>
-              </div>
-              {idx < steps.length - 1 && (
-                <div
-                  style={{
-                    height: 3,
-                    width: 90,
-                    background: idx < step ? "#40db61" : "#e0e0e0",
-                    margin: "0 8px",
-                    borderRadius: 2,
-                    alignSelf: "center",
-                    position: "relative",
-                    top: "-18px",
-                    zIndex: 1,
-                  }}
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-
-        <form onSubmit={handleSubmit} autoComplete="off">
-          {/* Step 1: Personal Information */}
-          {step === 0 && (
-            <div className="application-form-section">
-              <div className="application-form-section-title">Personal Information</div>
-              <div className="application-form-section-desc">
-                Please fill out all required information accurately
-              </div>
-              <div className="application-form-grid">
-                <label className="application-form-label">
-                  <span>First Name <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
-                  {errors.firstName && <span className="application-form-required">{errors.firstName}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Middle Name</span>
-                  <input className="application-form-input" type="text" name="middleName" value={formData.middleName} onChange={handleChange} />
-                </label>
-                <label className="application-form-label">
-                  <span>Last Name <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
-                  {errors.lastName && <span className="application-form-required">{errors.lastName}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Email Address <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="email" name="email" value={formData.email} onChange={handleChange} required />
-                  {errors.email && <span className="application-form-required">{errors.email}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Phone Number <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-                  {errors.phone && <span className="application-form-required">{errors.phone}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Birthdate <span className="application-form-required">*</span></span>
-                  <input
-                    className="application-form-input"
-                    type="date"
-                    name="birthdate"
-                    value={formData.birthdate}
-                    onChange={handleChange}
-                    required
-                    max={new Date().toISOString().split('T')[0]} // Prevent future dates
-                  />
-                  {errors.birthdate && <span className="application-form-required">{errors.birthdate}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Gender <span className="application-form-required">*</span></span>
-                  <select className="application-form-select" name="gender" value={formData.gender} onChange={handleChange} required>
-                    <option value="">Select gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                  {errors.gender && <span className="application-form-required">{errors.gender}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Civil Status <span className="application-form-required">*</span></span>
-                  <select className="application-form-select" name="civilStatus" value={formData.civilStatus} onChange={handleChange} required>
-                    <option value="">Select status</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                  </select>
-                  {errors.civilStatus && <span className="application-form-required">{errors.civilStatus}</span>}
-                </label>
-                <label className="application-form-label" style={{ gridColumn: "1 / span 2" }}>
-                  <span>Complete Address <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="address" value={formData.address} onChange={handleChange} required />
-                  {errors.address && <span className="application-form-required">{errors.address}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>City/Municipality <span className="application-form-required">*</span></span>
-                  <select
-                    className="application-form-select"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select City/Municipality</option>
-                    <option value="Pateros">Pateros</option>
-                    <option value="Taguig">Taguig City</option>
-                    <option value="Makati">Makati City</option>
-                    <option value="Pasig">Pasig City</option>
-                    <option value="Caloocan">Caloocan City</option>
-                    <option value="Las Piñas">Las Piñas City</option>
-                    <option value="Malabon">Malabon City</option>
-                    <option value="Mandaluyong">Mandaluyong City</option>
-                    <option value="Marikina">Marikina City</option>
-                    <option value="Parañaque">Parañaque City</option>
-                    <option value="Pasay">Pasay City</option>
-                    <option value="Quezon">Quezon City</option>
-                  </select>
-                  {errors.city && <span className="application-form-required">{errors.city}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Province <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="province" value={formData.province} onChange={handleChange} required />
-                  {errors.province && <span className="application-form-required">{errors.province}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Zip Code <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="zip" value={formData.zip} onChange={handleChange} required />
-                  {errors.zip && <span className="application-form-required">{errors.zip}</span>}
-                </label>
-              </div>
-            </div>
-          )}
-
-          {/* Step 2: Academic Information */}
-          {step === 1 && (
-            <div className="application-form-section">
-              <div className="application-form-section-title">Academic Information</div>
-              <div className="application-form-section-desc">
-                Please provide your academic background.
-              </div>
-              <div className="application-form-grid">
-                <label className="application-form-label">
-                  <span>Last School Attended <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="lastSchoolAttended" value={formData.lastSchoolAttended} onChange={handleChange} required />
-                  {errors.lastSchoolAttended && <span className="application-form-required">{errors.lastSchoolAttended}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>School Address <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="schoolAddress" value={formData.schoolAddress} onChange={handleChange} required />
-                  {errors.schoolAddress && <span className="application-form-required">{errors.schoolAddress}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Year Graduated <span className="application-form-required">*</span></span>
-                  <select className="application-form-select" name="yearGraduated" value={formData.yearGraduated} onChange={handleChange} required>
-                    <option value="">Select year</option>
-                    {Array.from({ length: 76 }, (_, i) => 1950 + i).map((year) => (
-                      <option key={year} value={year}>{year}</option>
-                    ))}
-                  </select>
-                  {errors.yearGraduated && <span className="application-form-required">{errors.yearGraduated}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Track/Strand <span className="application-form-required">*</span></span>
-                  <select className="application-form-select" name="trackStrand" value={formData.trackStrand} onChange={handleChange} required>
-                    <option value="">Select track/strand</option>
-                    <option value="STEM">STEM</option>
-                    <option value="HUMSS">HUMSS</option>
-                    <option value="ABM">ABM</option>
-                    <option value="GAS">GAS</option>
-                    <option value="TVL">TVL</option>
-                  </select>
-                  {errors.trackStrand && <span className="application-form-required">{errors.trackStrand}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>General Average <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="generalAverage" value={formData.generalAverage} onChange={handleChange} required />
-                  {errors.generalAverage && <span className="application-form-required">{errors.generalAverage}</span>}
-                </label>
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Program Choices */}
-          {step === 2 && (
-            <div className="application-form-section">
-              <div className="application-form-section-title">Program Choices & Emergency Contact</div>
-              <div className="application-form-section-desc">
-                Select your preferred programs and provide emergency contact details.
-              </div>
-              <div className="application-form-grid">
-                <label className="application-form-label">
-                  <span>First Choice <span className="application-form-required">*</span></span>
-                  <select
-                    className="application-form-select"
-                    name="firstChoice"
-                    value={formData.firstChoice}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select program</option>
-                    {programOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.firstChoice && <span className="application-form-required">{errors.firstChoice}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Second Choice <span className="application-form-required">*</span></span>
-                  <select
-                    className="application-form-select"
-                    name="secondChoice"
-                    value={formData.secondChoice}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select program</option>
-                    {programOptions
-                      .filter((option) => option.value !== formData.firstChoice)
-                      .map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                  </select>
-                  {errors.secondChoice && <span className="application-form-required">{errors.secondChoice}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Emergency Contact Name <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="emergencyContactName" value={formData.emergencyContactName} onChange={handleChange} required />
-                  {errors.emergencyContactName && <span className="application-form-required">{errors.emergencyContactName}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Relationship to Emergency Contact <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="text" name="emergencyContactRelationship" value={formData.emergencyContactRelationship} onChange={handleChange} required />
-                  {errors.emergencyContactRelationship && <span className="application-form-required">{errors.emergencyContactRelationship}</span>}
-                </label>
-                <label className="application-form-label">
-                  <span>Emergency Contact Number <span className="application-form-required">*</span></span>
-                  <input className="application-form-input" type="tel" name="emergencyContactNumber" value={formData.emergencyContactNumber} onChange={handleChange} required />
-                  {errors.emergencyContactNumber && <span className="application-form-required">{errors.emergencyContactNumber}</span>}
-                </label>
-              </div>
-            </div>
-          )}
-
-          {/* Step 4: Review & Submit */}
-          {step === 3 && (
-            <div>
-              {/* Highlighted Personal Info */}
-              <div className="application-form-section-highlight">
-                <div className="application-form-section-title">Personal Information</div>
-                <div style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0 32px",
-                  marginBottom: 8
-                }}>
-                  <div style={{ flex: "1 1 320px", minWidth: 260 }}>
-                    <div><b>Full Name:</b> {`${formData.firstName} ${formData.middleName}. ${formData.lastName}`.replace(/\s+/g, " ").trim()}</div>
-                    <div><b>Phone Number:</b> {formData.phone}</div>
-                    <div><b>Gender:</b> {formData.gender}</div>
-                    <div>
-                      <b>Complete Address:</b>{" "}
-                      {[
-                        formData.address,
-                        formData.city,
-                        formData.province,
-                        formData.zip
-                      ].filter(Boolean).join(', ')}
-                    </div>
-                  </div>
-                  <div style={{ flex: "1 1 320px", minWidth: 260 }}>
-                    <div><b>Email:</b> {formData.email}</div>
-                    <div><b>Birthdate:</b> {formData.birthdate}</div>
-                    <div><b>Civil Status:</b> {formData.civilStatus}</div>
-                  </div>
-                </div>
-              </div>
-              {/* Highlighted Academic Info */}
-              <div className="application-form-section-highlight">
-                <div className="application-form-section-title">Academic Information</div>
-                <div style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0 32px"
-                }}>
-                  <div style={{ flex: "1 1 320px", minWidth: 260 }}>
-                    <div><b>Last School Attended:</b> {formData.lastSchoolAttended}</div>
-                    <div><b>School Address:</b> {formData.schoolAddress}</div>
-                    <div><b>Year Graduated:</b> {formData.yearGraduated}</div>
-                  </div>
-                  <div style={{ flex: "1 1 320px", minWidth: 260 }}>
-                    <div><b>Track/Strand:</b> {formData.trackStrand}</div>
-                    <div><b>General Average:</b> {formData.generalAverage}</div>
-                  </div>
-                </div>
-              </div>
-              {/* Highlighted Program Choices */}
-              <div className="application-form-section-highlight">
-                <div className="application-form-section-title">Program Choices</div>
-                <div>
-                  <div><b>First Choice:</b> {formData.firstChoice}</div>
-                  <div><b>Second Choice:</b> {formData.secondChoice}</div>
-                </div>
-              </div>
-              {/* Highlighted Emergency Contact */}
-              <div className="application-form-section-highlight">
-                <div className="application-form-section-title">Emergency Contact</div>
-                <div>
-                  <div><b>Name:</b> {formData.emergencyContactName}</div>
-                  <div><b>Relationship:</b> {formData.emergencyContactRelationship}</div>
-                  <div><b>Contact Number:</b> {formData.emergencyContactNumber}</div>
-                </div>
-              </div>
-              <div style={{
-                background: "#e8f8ee",
-                border: "1.5px solid #b7eac7",
-                color: "#228c22",
-                borderRadius: 8,
-                padding: "16px 20px",
-                marginBottom: 28,
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                fontWeight: 500,
-                fontSize: "1.08rem"
-              }}>
-                <span style={{ fontSize: 22, marginRight: 8 }}>✔️</span>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: "1.08rem" }}>Application Ready for Submission</div>
-                  <div style={{ color: "#228c22", fontWeight: 400, fontSize: "1rem" }}>
-                    Please review all your information below before submitting your application.
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Navigation Buttons */}
+          {/* Status Bar */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "flex-end",
-              marginTop: 32,
-              width: "100%",
-              maxWidth: 900,
-              gap: 270,
+              margin: "24px 0 32px 0",
+              justifyContent: "center",
+              gap: 0,
             }}
           >
-            {step > 0 ? (
-              <button
-                type="button"
-                style={{
-                  width: 140,
-                  background: "#fff",
-                  color: "#228c22",
-                  fontWeight: 700,
-                  border: "2px solid #228c22",
-                  borderRadius: 8,
-                  padding: "10px 0",
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  transition: "background 0.2s, color 0.2s",
-                }}
-                onClick={prevStep}
-              >
-                <span style={{ fontSize: 18, marginRight: 4 }}>←</span>
-                Previous
-              </button>
-            ) : (
-              <div style={{ width: 140 }} />
-            )}
-
-            {/* Invisible spacer div between buttons */}
-            <div style={{ width: 80, color: "#fff" }} />
-
-            {step < steps.length - 1 && (
-              <button
-                type="button"
-                style={{
-                  width: 140,
-                  background: "linear-gradient(135deg, #40db61 60%, #2c781d 100%)",
-                  color: "#fff",
-                  fontWeight: 700,
-                  border: "none",
-                  borderRadius: 8,
-                  padding: "10px 0",
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  boxShadow: "0 2px 8px rgba(44, 120, 29, 0.08)",
-                  transition: "background 0.2s, color 0.2s",
-                  marginLeft: step > 0 ? 18 : 0,
-                }}
-                onClick={nextStep}
-              >
-                Next
-                <span style={{ fontSize: 18, marginLeft: 4 }}>→</span>
-              </button>
-            )}
-            {step === steps.length - 1 && (
-              <button
-                type="submit"
-                style={{
-                  width: 180,
-                  background: "linear-gradient(135deg, #40db61 60%, #2c781d 100%)",
-                  color: "#fff",
-                  fontWeight: 700,
-                  border: "none",
-                  borderRadius: 8,
-                  padding: "10px 0",
-                  fontSize: "1rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  boxShadow: "0 2px 8px rgba(44, 120, 29, 0.08)",
-                  transition: "background 0.2s, color 0.2s",
-                }}
-              >
-                Submit
-                <span style={{ fontSize: 18, marginLeft: 4 }}>→</span>
-              </button>
-            )}
+            {steps.map((s, idx) => (
+              <React.Fragment key={s.label}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    minWidth: 120,
+                    position: "relative",
+                    zIndex: 2,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: "50%",
+                      background:
+                        idx === step
+                          ? "linear-gradient(135deg, #40db61 60%, #2c781d 100%)"
+                          : idx < step
+                          ? "#40db61"
+                          : "#e0e0e0",
+                      color: idx <= step ? "#fff" : "#888",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
+                      fontSize: "1.2rem",
+                      marginBottom: 6,
+                      border:
+                        idx === step
+                          ? "2.5px solid #2c781d"
+                          : "2.5px solid #e0e0e0",
+                      transition: "all 0.2s",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    {idx + 1}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "0.98rem",
+                      color: idx === step ? "#2c781d" : "#888",
+                      fontWeight: idx === step ? 700 : 500,
+                      textAlign: "center",
+                      minWidth: 90,
+                      maxWidth: 120,
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {s.label}
+                  </div>
+                </div>
+                {idx < steps.length - 1 && (
+                  <div
+                    style={{
+                      height: 3,
+                      width: 90,
+                      background: idx < step ? "#40db61" : "#e0e0e0",
+                      margin: "0 8px",
+                      borderRadius: 2,
+                      alignSelf: "center",
+                      position: "relative",
+                      top: "-18px",
+                      zIndex: 1,
+                    }}
+                  />
+                )}
+              </React.Fragment>
+            ))}
           </div>
-        </form>
+
+          <form onSubmit={handleSubmit} autoComplete="off">
+            {/* Step 1: Personal Information */}
+            {step === 0 && (
+              <div className="application-form-section">
+                <div className="application-form-section-title">Personal Information</div>
+                <div className="application-form-section-desc">
+                  Please fill out all required information accurately
+                </div>
+                <div className="application-form-grid">
+                  <label className="application-form-label">
+                    <span>First Name <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+                    {errors.firstName && <span className="application-form-required">{errors.firstName}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Middle Name</span>
+                    <input className="application-form-input" type="text" name="middleName" value={formData.middleName} onChange={handleChange} />
+                  </label>
+                  <label className="application-form-label">
+                    <span>Last Name <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+                    {errors.lastName && <span className="application-form-required">{errors.lastName}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Email Address <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="email" name="email" value={formData.email} onChange={handleChange} required />
+                    {errors.email && <span className="application-form-required">{errors.email}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Phone Number <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                    {errors.phone && <span className="application-form-required">{errors.phone}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Birthdate <span className="application-form-required">*</span></span>
+                    <input
+                      className="application-form-input"
+                      type="date"
+                      name="birthdate"
+                      value={formData.birthdate}
+                      onChange={handleChange}
+                      required
+                      max={new Date().toISOString().split('T')[0]} // Prevent future dates
+                    />
+                    {errors.birthdate && <span className="application-form-required">{errors.birthdate}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Gender <span className="application-form-required">*</span></span>
+                    <select className="application-form-select" name="gender" value={formData.gender} onChange={handleChange} required>
+                      <option value="">Select gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                    {errors.gender && <span className="application-form-required">{errors.gender}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Civil Status <span className="application-form-required">*</span></span>
+                    <select className="application-form-select" name="civilStatus" value={formData.civilStatus} onChange={handleChange} required>
+                      <option value="">Select status</option>
+                      <option value="Single">Single</option>
+                      <option value="Married">Married</option>
+                    </select>
+                    {errors.civilStatus && <span className="application-form-required">{errors.civilStatus}</span>}
+                  </label>
+                  <label className="application-form-label full-width">
+                    <span>Complete Address <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="address" value={formData.address} onChange={handleChange} required />
+                    {errors.address && <span className="application-form-required">{errors.address}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>City/Municipality <span className="application-form-required">*</span></span>
+                    <select
+                      className="application-form-select"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select City/Municipality</option>
+                      <option value="Pateros">Pateros</option>
+                      <option value="Taguig">Taguig City</option>
+                      <option value="Makati">Makati City</option>
+                      <option value="Pasig">Pasig City</option>
+                      <option value="Caloocan">Caloocan City</option>
+                      <option value="Las Piñas">Las Piñas City</option>
+                      <option value="Malabon">Malabon City</option>
+                      <option value="Mandaluyong">Mandaluyong City</option>
+                      <option value="Marikina">Marikina City</option>
+                      <option value="Parañaque">Parañaque City</option>
+                      <option value="Pasay">Pasay City</option>
+                      <option value="Quezon">Quezon City</option>
+                    </select>
+                    {errors.city && <span className="application-form-required">{errors.city}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Province <span className="application-form-required">*</span></span>
+                    <input
+                      className="application-form-input"
+                      type="text"
+                      name="province"
+                      value={formData.province}
+                      onChange={handleChange}
+                      required
+                    />
+                    {errors.province && <span className="application-form-required">{errors.province}</span>}
+                  </label>
+                  <label className="application-form-label full-width">
+                    <span>Zip Code <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="zip" value={formData.zip} onChange={handleChange} required />
+                    {errors.zip && <span className="application-form-required">{errors.zip}</span>}
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Academic Information */}
+            {step === 1 && (
+              <div className="application-form-section">
+                <div className="application-form-section-title">Academic Information</div>
+                <div className="application-form-section-desc">
+                  Please provide your academic background.
+                </div>
+                <div className="application-form-grid">
+                  <label className="application-form-label">
+                    <span>Last School Attended <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="lastSchoolAttended" value={formData.lastSchoolAttended} onChange={handleChange} required />
+                    {errors.lastSchoolAttended && <span className="application-form-required">{errors.lastSchoolAttended}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>School Address <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="schoolAddress" value={formData.schoolAddress} onChange={handleChange} required />
+                    {errors.schoolAddress && <span className="application-form-required">{errors.schoolAddress}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Year Graduated <span className="application-form-required">*</span></span>
+                    <select className="application-form-select" name="yearGraduated" value={formData.yearGraduated} onChange={handleChange} required>
+                      <option value="">Select year</option>
+                      {Array.from({ length: 76 }, (_, i) => 1950 + i).map((year) => (
+                        <option key={year} value={year}>{year}</option>
+                      ))}
+                    </select>
+                    {errors.yearGraduated && <span className="application-form-required">{errors.yearGraduated}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Track/Strand <span className="application-form-required">*</span></span>
+                    <select className="application-form-select" name="trackStrand" value={formData.trackStrand} onChange={handleChange} required>
+                      <option value="">Select track/strand</option>
+                      <option value="STEM">STEM</option>
+                      <option value="HUMSS">HUMSS</option>
+                      <option value="ABM">ABM</option>
+                      <option value="GAS">GAS</option>
+                      <option value="TVL">TVL</option>
+                    </select>
+                    {errors.trackStrand && <span className="application-form-required">{errors.trackStrand}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>General Average <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="generalAverage" value={formData.generalAverage} onChange={handleChange} required />
+                    {errors.generalAverage && <span className="application-form-required">{errors.generalAverage}</span>}
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Program Choices */}
+            {step === 2 && (
+              <div className="application-form-section">
+                <div className="application-form-section-title">Program Choices & Emergency Contact</div>
+                <div className="application-form-section-desc">
+                  Select your preferred programs and provide emergency contact details.
+                </div>
+                <div className="application-form-grid">
+                  <label className="application-form-label">
+                    <span>First Choice <span className="application-form-required">*</span></span>
+                    <select
+                      className="application-form-select"
+                      name="firstChoice"
+                      value={formData.firstChoice}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select program</option>
+                      {programOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.firstChoice && <span className="application-form-required">{errors.firstChoice}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Second Choice <span className="application-form-required">*</span></span>
+                    <select
+                      className="application-form-select"
+                      name="secondChoice"
+                      value={formData.secondChoice}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select program</option>
+                      {programOptions
+                        .filter((option) => option.value !== formData.firstChoice)
+                        .map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                    </select>
+                    {errors.secondChoice && <span className="application-form-required">{errors.secondChoice}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Emergency Contact Name <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="emergencyContactName" value={formData.emergencyContactName} onChange={handleChange} required />
+                    {errors.emergencyContactName && <span className="application-form-required">{errors.emergencyContactName}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Relationship to Emergency Contact <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="text" name="emergencyContactRelationship" value={formData.emergencyContactRelationship} onChange={handleChange} required />
+                    {errors.emergencyContactRelationship && <span className="application-form-required">{errors.emergencyContactRelationship}</span>}
+                  </label>
+                  <label className="application-form-label">
+                    <span>Emergency Contact Number <span className="application-form-required">*</span></span>
+                    <input className="application-form-input" type="tel" name="emergencyContactNumber" value={formData.emergencyContactNumber} onChange={handleChange} required />
+                    {errors.emergencyContactNumber && <span className="application-form-required">{errors.emergencyContactNumber}</span>}
+                  </label>
+                </div>
+              </div>
+            )}
+
+            {/* Step 4: Review & Submit */}
+            {step === 3 && (
+              <div>
+                {/* Highlighted Personal Info */}
+                <div className="application-form-section-highlight">
+                  <div className="application-form-section-title">Personal Information</div>
+                  <div style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0 32px",
+                    marginBottom: 8
+                  }}>
+                    <div style={{ flex: "1 1 320px", minWidth: 260 }}>
+                      <div><b>Full Name:</b> {`${formData.firstName} ${formData.middleName}. ${formData.lastName}`.replace(/\s+/g, " ").trim()}</div>
+                      <div><b>Phone Number:</b> {formData.phone}</div>
+                      <div><b>Gender:</b> {formData.gender}</div>
+                      <div>
+                        <b>Complete Address:</b>{" "}
+                        {[
+                          formData.address,
+                          formData.city,
+                          formData.province,
+                          formData.zip
+                        ].filter(Boolean).join(', ')}
+                      </div>
+                    </div>
+                    <div style={{ flex: "1 1 320px", minWidth: 260 }}>
+                      <div><b>Email:</b> {formData.email}</div>
+                      <div><b>Birthdate:</b> {formData.birthdate}</div>
+                      <div><b>Civil Status:</b> {formData.civilStatus}</div>
+                    </div>
+                  </div>
+                </div>
+                {/* Highlighted Academic Info */}
+                <div className="application-form-section-highlight">
+                  <div className="application-form-section-title">Academic Information</div>
+                  <div style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0 32px"
+                  }}>
+                    <div style={{ flex: "1 1 320px", minWidth: 260 }}>
+                      <div><b>Last School Attended:</b> {formData.lastSchoolAttended}</div>
+                      <div><b>School Address:</b> {formData.schoolAddress}</div>
+                      <div><b>Year Graduated:</b> {formData.yearGraduated}</div>
+                    </div>
+                    <div style={{ flex: "1 1 320px", minWidth: 260 }}>
+                      <div><b>Track/Strand:</b> {formData.trackStrand}</div>
+                      <div><b>General Average:</b> {formData.generalAverage}</div>
+                    </div>
+                  </div>
+                </div>
+                {/* Highlighted Program Choices */}
+                <div className="application-form-section-highlight">
+                  <div className="application-form-section-title">Program Choices</div>
+                  <div>
+                    <div><b>First Choice:</b> {formData.firstChoice}</div>
+                    <div><b>Second Choice:</b> {formData.secondChoice}</div>
+                  </div>
+                </div>
+                {/* Highlighted Emergency Contact */}
+                <div className="application-form-section-highlight">
+                  <div className="application-form-section-title">Emergency Contact</div>
+                  <div>
+                    <div><b>Name:</b> {formData.emergencyContactName}</div>
+                    <div><b>Relationship:</b> {formData.emergencyContactRelationship}</div>
+                    <div><b>Contact Number:</b> {formData.emergencyContactNumber}</div>
+                  </div>
+                </div>
+                <div style={{
+                  background: "#e8f8ee",
+                  border: "1.5px solid #b7eac7",
+                  color: "#228c22",
+                  borderRadius: 8,
+                  padding: "16px 20px",
+                  marginBottom: 28,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  fontWeight: 500,
+                  fontSize: "1.08rem"
+                }}>
+                  <span style={{ fontSize: 22, marginRight: 8 }}>✔️</span>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: "1.08rem" }}>Application Ready for Submission</div>
+                    <div style={{ color: "#228c22", fontWeight: 400, fontSize: "1rem" }}>
+                      Please review all your information below before submitting your application.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Navigation Buttons */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                marginTop: 32,
+                width: "100%",
+                maxWidth: 900,
+                gap: 270,
+              }}
+            >
+              {step > 0 ? (
+                <button
+                  type="button"
+                  style={{
+                    width: 140,
+                    background: "#fff",
+                    color: "#228c22",
+                    fontWeight: 700,
+                    border: "2px solid #228c22",
+                    borderRadius: 8,
+                    padding: "10px 0",
+                    fontSize: "1rem",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    transition: "background 0.2s, color 0.2s",
+                  }}
+                  onClick={prevStep}
+                >
+                  <span style={{ fontSize: 18, marginRight: 4 }}>←</span>
+                  Previous
+                </button>
+              ) : (
+                <div style={{ width: 140 }} />
+              )}
+
+              {/* Invisible spacer div between buttons */}
+              <div style={{ width: 80, color: "#fff" }} />
+
+              {step < steps.length - 1 && (
+                <button
+                  type="button"
+                  style={{
+                    width: 140,
+                    background: "linear-gradient(135deg, #40db61 60%, #2c781d 100%)",
+                    color: "#fff",
+                    fontWeight: 700,
+                    border: "none",
+                    borderRadius: 8,
+                    padding: "10px 0",
+                    fontSize: "1rem",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    boxShadow: "0 2px 8px rgba(44, 120, 29, 0.08)",
+                    transition: "background 0.2s, color 0.2s",
+                    marginLeft: step > 0 ? 18 : 0,
+                  }}
+                  onClick={nextStep}
+                >
+                  Next
+                  <span style={{ fontSize: 18, marginLeft: 4 }}>→</span>
+                </button>
+              )}
+              {step === steps.length - 1 && (
+                <button
+                  type="submit"
+                  style={{
+                    width: 180,
+                    background: "linear-gradient(135deg, #40db61 60%, #2c781d 100%)",
+                    color: "#fff",
+                    fontWeight: 700,
+                    border: "none",
+                    borderRadius: 8,
+                    padding: "10px 0",
+                    fontSize: "1rem",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    boxShadow: "0 2px 8px rgba(44, 120, 29, 0.08)",
+                    transition: "background 0.2s, color 0.2s",
+                  }}
+                >
+                  Submit
+                  <span style={{ fontSize: 18, marginLeft: 4 }}>→</span>
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

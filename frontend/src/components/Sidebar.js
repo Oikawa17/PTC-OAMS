@@ -56,8 +56,10 @@ function Sidebar() {
   const handleMouseLeave = () => setCollapsed(true);
 
   const handleSignOut = () => {
-    localStorage.clear();
-    navigate("/");
+    if (window.confirm("Are you sure you want to sign out?")) {
+      localStorage.clear();
+      navigate("/");
+    }
   };
 
   return (

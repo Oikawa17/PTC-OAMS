@@ -208,8 +208,18 @@ const ApplicationStatus = () => {
                 {docStatus.startsWith('Pending') && (
                   <div className="app-status-doc-details">
                     <div>
-                      <strong>Submitted:</strong> {submittedFields.length > 0 ? submittedFields.join(', ') : 'None'}
-                    </div>
+                   <span style={{ color: 'red', fontWeight: 600 }}>
+      
+       Submitted:
+       <br />
+        
+      </span>
+            <span
+          style={{ color: 'red', fontWeight: 400, marginLeft: 4, whiteSpace: 'pre-line' }}
+        >
+          {submittedFields.length > 0 ? submittedFields.join('\n') : 'None'}
+        </span>
+                    </div> 
                     <div>
                       <strong>{docCount}</strong> out of <strong>{docTotal}</strong> requirements submitted
                     </div>

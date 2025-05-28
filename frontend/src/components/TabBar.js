@@ -14,7 +14,7 @@ function TabBar({ profile }) {
     <nav className="tabbar-topbar">
       <div className="tabbar-college-name">
         <img src={logo} alt="PTC Logo" className="tabbar-ptc-logo" />
-        Pateros Technological College
+        Pateros Technological College - Online Application Management System
       </div>
       <div
         className="tabbar-profilebar"

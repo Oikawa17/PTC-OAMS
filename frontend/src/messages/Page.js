@@ -25,9 +25,9 @@ function Messages() {
       .catch(() => setMessages([]));
   }, [applicationId]);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  // useEffect(() => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // }, [messages]);
    useEffect(() => {
     if (!applicationId) return;
     fetch(`http://localhost:5000/profile/${applicationId}`)
