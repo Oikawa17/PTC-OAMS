@@ -35,7 +35,14 @@ router.post('/', (req, res) => {
       const user = results[0];
       if (!user) return res.status(404).send('User not found');
 
+<<<<<<< HEAD
       // If user.is_temp, compare plain text password
+=======
+      // Compare stored hashed password with the provided password
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) return res.status(401).send('Incorrect password');
+
+>>>>>>> 90582dc (Fixed JAVA)
       if (user.is_temp) {
         if (password !== user.password) {
           return res.status(401).send('Incorrect password');
