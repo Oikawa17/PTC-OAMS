@@ -24,13 +24,12 @@ class ViewFrame extends JFrame {
         buttonPanel.setLayout(new GridBagLayout());
         statusLabel = new JLabel(" ");
 
-        // --- Top bar with Add Student (75%) and Refresh (25%) ---
         JPanel topBar = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0;
         gbc.insets = new Insets(0, 0, 0, 0);
 
-        // Add Student button (75%)
+        // "Add Student" button
         gbc.gridx = 0;
         gbc.weightx = 0.75;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -39,7 +38,7 @@ class ViewFrame extends JFrame {
         addStudentButton.addActionListener(e -> new AddStudent(this));
         topBar.add(addStudentButton, gbc);
 
-        // Refresh button (25%)
+        // "Refresh" button
         gbc.gridx = 1;
         gbc.weightx = 0.25;
         JButton refreshButton = new JButton("Refresh");
@@ -68,7 +67,7 @@ class ViewFrame extends JFrame {
                 return;
             }
             buttonPanel.removeAll();
-int maxRows = 10; // Number of rows before starting a new column (adjust as needed)
+int maxRows = 10; 
 GridBagConstraints gbc = new GridBagConstraints();
 gbc.insets = new Insets(10, 10, 10, 10);
 gbc.fill = GridBagConstraints.NONE;
@@ -79,8 +78,8 @@ for (int i = 0; i < ids.size(); i++) {
     JButton btn = new JButton(id);
     btn.setPreferredSize(new Dimension(150, 50));
     btn.addActionListener(e -> showStudentInfo(id));
-    gbc.gridx = i / maxRows; // column
-    gbc.gridy = i % maxRows; // row
+    gbc.gridx = i / maxRows; 
+    gbc.gridy = i % maxRows;
     buttonPanel.add(btn, gbc);
 }
             buttonPanel.revalidate();
@@ -109,13 +108,13 @@ class StudentInfoFrame extends JFrame {
         setTitle("Student Info: " + info.getOrDefault("application_id", ""));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Back button
+        // "Back" button
         JButton backButton = new JButton("← Back");
         backButton.setFont(new Font("Arial", Font.PLAIN, 16));
         backButton.setPreferredSize(new Dimension(100, 35));
         backButton.addActionListener(e -> dispose());
 
-        // Verify documents button
+        // "Verify documents" button
         JButton verifyDocsButton = new JButton("Verify Documents");
         verifyDocsButton.setFont(new Font("Arial", Font.PLAIN, 16));
         verifyDocsButton.setPreferredSize(new Dimension(180, 35));
@@ -123,7 +122,7 @@ verifyDocsButton.addActionListener(e -> {
     VerifyDocs.showVerifyDocumentsFrame(this, info.getOrDefault("application_id", ""));
 });
 
-// New Show Documents button
+// "Show Documents" button
 JButton showFolderButton = new JButton("Show Documents");
 showFolderButton.setFont(new Font("Arial", Font.PLAIN, 16));
 showFolderButton.setPreferredSize(new Dimension(180, 35));
@@ -141,7 +140,7 @@ showFolderButton.addActionListener(e -> {
     }
 });
 
-        // Payment verification button
+        // "Payment verification" button
         JButton paymentVerificationButton = new JButton("Payment Verification");
 paymentVerificationButton.setFont(new Font("Arial", Font.PLAIN, 16));
 paymentVerificationButton.setPreferredSize(new Dimension(180, 35));
@@ -150,7 +149,7 @@ paymentVerificationButton.addActionListener(e -> {
     Payment.verifyPayment(appId); // Calls Payment.java function
 });
 
-        // Delete button
+        // "Delete" button
         JButton deleteButton = new JButton("Delete");
         deleteButton.setFont(new Font("Arial", Font.PLAIN, 16));
         deleteButton.setPreferredSize(new Dimension(100, 35));
@@ -161,18 +160,18 @@ paymentVerificationButton.addActionListener(e -> {
             }
         });
 
-// Panel for the two buttons in 50:50 ratio
+// Panel for adjusting the Document button
 JPanel docsPanel = new JPanel(new GridLayout(1, 3, 10, 0));
 docsPanel.add(verifyDocsButton);
 docsPanel.add(showFolderButton);
 docsPanel.add(paymentVerificationButton);
-// Top panel for back, docsPanel, and delete buttons
+
 JPanel topPanel = new JPanel(new BorderLayout());
 topPanel.add(backButton, BorderLayout.WEST);
 topPanel.add(deleteButton, BorderLayout.EAST);
 topPanel.add(docsPanel, BorderLayout.CENTER);
 
-        // Get column order from DB
+        // Get column order from DB main
         java.util.List<String> columnOrder = new java.util.ArrayList<>();
         try (java.sql.Connection conn = DatabaseConnection.getConnection();
              java.sql.PreparedStatement stmt = conn.prepareStatement("SELECT * FROM student_info LIMIT 1");
@@ -185,7 +184,6 @@ topPanel.add(docsPanel, BorderLayout.CENTER);
             columnOrder = new java.util.ArrayList<>(info.keySet());
         }
 
-        // Define where to split between personal and academic info
         java.util.List<String> personalFields = new java.util.ArrayList<>();
         java.util.List<String> academicFields = new java.util.ArrayList<>();
         boolean academicSection = false;
@@ -242,7 +240,6 @@ for (String col : academicFields) {
     academicPanel.add(row);
 }
 
-        // Main panel with two columns
         JPanel mainPanel = new JPanel(new GridLayout(1, 2, 20, 0));
         mainPanel.add(personalPanel);
         mainPanel.add(academicPanel);

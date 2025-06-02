@@ -5,9 +5,9 @@ import javax.swing.JOptionPane;
 
 public class ShowDocs {
     /**
-     * Opens the folder for the given applicationId in backend/uploads/[application_id].
-     * @param parent The parent frame (for dialog positioning).
-     * @param applicationId The application ID.
+     * 
+     * @param parent 
+     * @param applicationId 
      */
     public static void openDocumentsFolder(JFrame parent, String applicationId) {
         File folder = new File("../backend/uploads/" + applicationId);

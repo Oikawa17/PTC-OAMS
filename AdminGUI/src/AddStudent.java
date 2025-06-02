@@ -68,7 +68,6 @@ public class AddStudent extends JDialog {
         infoPanel.add(Box.createVerticalStrut(8));
         infoPanel.add(statusLabel);
 
-        // Buttons in a vertical box with small margin
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         addButton.setMaximumSize(new Dimension(140, 30));
@@ -91,7 +90,6 @@ public class AddStudent extends JDialog {
         mainPanel.add(leftPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.EAST);
 
-        // Add top panel and main panel to dialog
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.add(topPanel, BorderLayout.NORTH);
         contentPanel.add(mainPanel, BorderLayout.CENTER);
@@ -107,7 +105,7 @@ public class AddStudent extends JDialog {
         String mm = String.format("%02d", now.getMonthValue());
         String yy = String.format("%02d", now.getYear() % 100);
 
-        // Query DB for the highest increment for this MMYY
+        // Query DB for the highest increment for this in format MMYY
         String prefix = mm + yy + "_";
         int maxIncrement = 0;
         java.sql.Connection conn = DatabaseConnection.getConnection();
@@ -134,8 +132,7 @@ public class AddStudent extends JDialog {
         String newAppId = prefix + String.format("%04d", nextIncrement);
 
         generatedAppId = newAppId;
-        // Keep the random password logic as is
-        generatedPassword = StudentInfoDAO.generateRandomPassword(nextIncrement);
+        generatedPassword = StudentInfoDAO.generateRandomPassword(6);
         appIdLabel.setText("Application ID: " + generatedAppId);
         passwordLabel.setText("Password: " + generatedPassword);
         statusLabel.setText(" ");
@@ -176,7 +173,7 @@ private void addStudent() {
             statusLabel.setText("Email required.");
             return;
         }
-        // Dummy implementation: Replace with actual email sending logic
+        // Dummy implementation
         statusLabel.setText("Sent to " + email + " (not implemented)");
     }
 }

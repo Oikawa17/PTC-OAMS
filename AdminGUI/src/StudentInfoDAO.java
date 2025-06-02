@@ -36,7 +36,7 @@ public class StudentInfoDAO {
         return null;
     }
 
-    // Generates the next application_id and a random 6-letter password
+    // Generates the "next" application_id and a random 6-letter password
     public static String[] generateNextAppIdAndPassword() throws SQLException {
         java.time.LocalDate now = java.time.LocalDate.now();
         String mm = String.format("%02d", now.getMonthValue());
@@ -73,18 +73,20 @@ public class StudentInfoDAO {
         }
     }
 
-    // Helper to generate a random password
-    public static String generateRandomPassword(int length) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        StringBuilder sb = new StringBuilder();
-        java.util.Random rand = new java.util.Random();
-        for (int i = 0; i < length; i++) {
-            sb.append(chars.charAt(rand.nextInt(chars.length())));
-        }
-        return sb.toString();
+   public static String generateRandomPassword(int length) {
+    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // Added numbers for better security
+    StringBuilder sb = new StringBuilder();
+    java.util.Random rand = new java.util.Random();
+    
+    for (int i = 0; i < length; i++) { 
+        sb.append(chars.charAt(rand.nextInt(chars.length()))); 
     }
+    
+    return sb.toString();
+}
 
-    // --- Add this method for deleting a student by application_id ---
+
+    // Deletes a student record by application ID
     public static void deleteStudent(String applicationId) throws SQLException {
         String query = "DELETE FROM student_info WHERE application_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

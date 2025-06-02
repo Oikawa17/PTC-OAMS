@@ -9,7 +9,7 @@ public class Payment {
      */
     public static void verifyPayment(String applicationId) {
         JFrame paymentFrame = new JFrame("Payment Verification");
-        paymentFrame.setSize(500, 300); // Wider and taller
+        paymentFrame.setSize(500, 300);
         paymentFrame.setLocationRelativeTo(null);
         paymentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -78,7 +78,7 @@ public class Payment {
         paymentFrame.add(mainPanel);
         paymentFrame.setVisible(true);
     }
-    // Helper: Get reference number and method from payments table
+    // Get reference number and method from payments table
     private static PaymentInfo getPaymentInfo(String applicationId) {
         String referenceNumber = "";
         String method = "";
@@ -98,7 +98,7 @@ public class Payment {
         return new PaymentInfo(referenceNumber != null ? referenceNumber : "", method != null ? method : "");
     }
 
-    // Helper: Update payment status in payments table
+    // Update payment status in payments table
     private static boolean updatePaymentStatus(String applicationId, String status) {
         String sql = "UPDATE payments SET status = ? WHERE application_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

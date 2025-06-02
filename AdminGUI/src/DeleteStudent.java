@@ -5,7 +5,7 @@ public class DeleteStudent {
     public static boolean confirmAndDelete(JFrame parent, String applicationId) {
         final boolean[] deleted = {false};
 
-        // Create a modal dialog for confirmation
+        // Create dialog for confirmation
         JDialog dialog = new JDialog(parent, "Confirm Delete", true);
         dialog.setLayout(new BorderLayout(10, 10));
 

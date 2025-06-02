@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
+import './messages.css';
 import Sidebar from '../components/Sidebar';
 import TabBar from '../components/TabBar';
-import './messages.css';
 
 function Messages() {
   const [messages, setMessages] = useState([]);
@@ -54,11 +54,13 @@ function Messages() {
   };
 
   return (
-      <div>
-      <TabBar profile={profile} />
+       <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+            {/* Only render TabBar when profile is loaded to ensure avatar and name show up immediately */}
+            <TabBar profile={profile} />
+            <Sidebar />
     <div className="messages-container">
       {/* Sidebar */}
-      <Sidebar />
+
       {/* Main content */}
       <div className="messages-content">
         <div className="messages-panel">

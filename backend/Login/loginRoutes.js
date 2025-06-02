@@ -1,17 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql2');
+const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
-
-// const db = mysql.createConnection({
-//   host: 'oamsmain-001-740-frederickrealizajr7382-6f28.l.aivencloud.com',
-//   user: 'avnadmin',
-//   password: 'AVNS_Q2hgVgD55Qr7zUrQIjS',
-//   database: 'main',
-//   port: 24797
-// });
-
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -37,15 +29,15 @@ router.post('/', (req, res) => {
   db.query(
     'SELECT * FROM student_info WHERE application_id = ?',
     [application_id],
-    (err, results) => {
+    async (err, results) => {
       if (err) return res.status(500).send(err);
 
       const user = results[0];
       if (!user) return res.status(404).send('User not found');
 
-      if (user.password !== password) {
-        return res.status(401).send('Incorrect password');
-      }
+      // Compare stored hashed password with the provided password
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) return res.status(401).send('Incorrect password');
 
       if (user.is_temp) {
         createFolder(application_id);
@@ -73,18 +65,26 @@ router.post('/', (req, res) => {
   );
 });
 
-router.post('/change-password', (req, res) => {
+router.post('/change-password', async (req, res) => {
   const { application_id, newPassword } = req.body;
 
-  const query = 'UPDATE student_info SET password = ?, is_temp = 0 WHERE application_id = ?';
+  try {
+    // Hash the new password before storing it
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-  db.query(query, [newPassword, application_id], (err, result) => {
-    if (err) return res.status(500).send('Database error');
-    if (result.affectedRows === 0) return res.status(404).send('User not found');
+    const query = 'UPDATE student_info SET password = ?, is_temp = 0 WHERE application_id = ?';
+    
+    db.query(query, [hashedPassword, application_id], (err, result) => {
+      if (err) return res.status(500).send('Database error');
+      if (result.affectedRows === 0) return res.status(404).send('User not found');
 
-    createFolder(application_id);
-    res.status(200).send('Password updated successfully');
-  });
+      createFolder(application_id);
+      res.status(200).send('Password updated successfully');
+    });
+  } catch (error) {
+    console.error('Hashing Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 module.exports = router;

@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const bcrypt = require('bcryptjs'); 
 
 const loginRoutes = require('./Login/loginRoutes');
 const dashboardRoutes = require('./Dashboard/dashboardRoutes');
 const applicationRoutes = require('./applicationForm/applicationRoutes');
-const documentuploadRoutes = require('./documentUpload/documentuploadRoutes'); // New import
+const documentuploadRoutes = require('./documentUpload/documentuploadRoutes');
 const applicationStatusRoutes = require('./applicationStatus/applicationStatusRoutes');
 const messageRoutes = require('./messages/messageRoutes');
 const paymentRoutes = require('./payment/paymentRoutes');
