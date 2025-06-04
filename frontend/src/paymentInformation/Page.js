@@ -5,16 +5,57 @@ import TabBar from '../components/TabBar';
 import gcashLogo from './assets/gcash.png';
 import paymayaLogo from './assets/paymaya.png';
 import bankLogo from './assets/bank.jpg';
+import { QRCodeSVG } from 'qrcode.react';
+
+const paymentMethods = [
+  {
+    key: 'GCash',
+    name: 'GCash',
+    logo: gcashLogo,
+    details: [
+      'Send money to: 0917-123-4567',
+      'Account Name: Pateros Technological College',
+      'Enter the amount: ₱1,000',
+      'Use your Application ID as reference number'
+    ],
+    qrValue: 'GCASH|0917-123-4567|Pateros Technological College|1000'
+  },
+  {
+    key: 'PayMaya',
+    name: 'PayMaya',
+    logo: paymayaLogo,
+    details: [
+      'Send money to: 0998-765-4321',
+      'Account Name: Pateros Technological College',
+      'Enter the amount: ₱1,000',
+      'Use your Application ID as reference number'
+    ],
+    qrValue: 'PAYMAYA|0998-765-4321|Pateros Technological College|1000'
+  },
+  {
+    key: 'Bank Transfer',
+    name: 'Bank Transfer',
+    logo: bankLogo,
+    details: [
+      'Bank: BDO',
+      'Account Name: Pateros Technological College',
+      'Account Number: 1234-5678-9012',
+      'Amount: ₱1,000',
+      'Use your Application ID as reference number'
+    ],
+    qrValue: 'BDO|1234-5678-9012|Pateros Technological College|1000'
+  }
+];
 
 function PaymentInformation() {
   const [methods, setMethods] = useState([]);
-  const [selectedMethod, setSelectedMethod] = useState('');
+  const [selectedMethod, setSelectedMethod] = useState(paymentMethods[0].key);
   const [reference, setReference] = useState('');
   const [amount, setAmount] = useState('');
   const [status, setStatus] = useState('');
   const [screenshot, setScreenshot] = useState(null);
   const [screenshotUrl, setScreenshotUrl] = useState('');
-    const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [history, setHistory] = useState([]);
   const applicationId = localStorage.getItem('application_id');
 
@@ -24,7 +65,6 @@ function PaymentInformation() {
       .then(setMethods)
       .catch(() => setStatus('Unable to connect to payment server.'));
 
-    // Fetch payment history
     if (applicationId) {
       fetch(`http://localhost:5000/payment/history/${applicationId}`)
         .then(res => res.json())
@@ -41,13 +81,11 @@ function PaymentInformation() {
         .catch(() => setProfile(null));
     }
   }, [applicationId]);
-  
 
   const handleScreenshotChange = (e) => {
     setScreenshot(e.target.files[0]);
     setScreenshotUrl(URL.createObjectURL(e.target.files[0]));
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +95,6 @@ function PaymentInformation() {
       return;
     }
     try {
-      // Submit payment details first
       const res = await fetch('http://localhost:5000/payment/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -71,7 +108,6 @@ function PaymentInformation() {
       const data = await res.json();
       setStatus(data.message || data.error);
 
-      // Only upload screenshot if payment submission succeeded and screenshot is present
       if (res.ok && screenshot) {
         const formData = new FormData();
         formData.append('application_id', applicationId);
@@ -87,7 +123,6 @@ function PaymentInformation() {
         }
       }
 
-      // Refresh payment history after submission
       if (applicationId) {
         fetch(`http://localhost:5000/payment/history/${applicationId}`)
           .then(res => res.json())
@@ -101,164 +136,123 @@ function PaymentInformation() {
     }
   };
 
-  // Icon selection based on method type
-  const getMethodIcon = (type) => {
-    switch (type) {
-      case 'GCash':
-        return <img src={gcashLogo} alt="GCash" className="gcash-icon" />;
-      case 'PayMaya':
-        return <img src={paymayaLogo} alt="PayMaya Logo" className="method-icon" />;
-      case 'Bank Transfer':
-        return <img src={bankLogo} alt="Bank Logo" className="bank-icon" />;
-      default:
-        return <span role="img" aria-label="Payment" className="method-icon">💳</span>;
-    }
-  };
+  // Find the selected payment method for QR code
+  const selectedMethodObj = paymentMethods.find(m => m.key === selectedMethod);
 
   return (
-      <div>
+    <div>
       <TabBar profile={profile} />
       <div style={{ display: "flex" }}></div>
-    
-    <div style={{ display: "flex" }}>
-      <Sidebar />
-      <div className="payment-container">
-        <h2>Payment Information</h2>
-        <div className="payment-card">
-          <div className="payment-header">
-            <div>
-              <strong>Application Fee:</strong> ₱1,000.00
+      <div style={{ display: "flex" }}>
+        <Sidebar />
+        <div className="payment-container">
+          <h2>Payment Information</h2>
+          <div className="payment-card">
+            <div className="payment-header">
+              <div>
+                <strong>Application Fee:</strong> ₱1,000.00
+              </div>
+              <span className="payment-status unpaid">Unpaid</span>
             </div>
-            <span className="payment-status unpaid">Unpaid</span>
-          </div>
-          <h3>Payment Methods</h3>
-          <div className="payment-methods">
-            {methods.map((m, idx) => (
-              <div
-                key={idx}
-                className={`payment-method ${selectedMethod === m.type ? 'selected' : ''}`}
-                onClick={() => {
-                  setSelectedMethod(m.type);
-                  setAmount(m.details.amount);
-                }}
-              >
-                <div className="payment-method-title">
-                  {getMethodIcon(m.type)}
-                  {m.type}
-                </div>
-                <div className="payment-method-details">
-                  {m.type === 'GCash' || m.type === 'PayMaya' ? (
+            <h3 className="payment-methods-title">Payment Methods</h3>
+            <div className="payment-methods">
+              {paymentMethods.map(method => (
+                <div
+                  key={method.key}
+                  className={`payment-method${selectedMethod === method.key ? ' selected' : ''}`}
+                  onClick={() => {
+                    setSelectedMethod(method.key);
+                    setAmount('1000');
+                  }}
+                >
+                  <div className="payment-method-title">
+                    <img src={method.logo} alt={method.name} className="method-icon" />
+                    <span>{method.name}</span>
+                  </div>
+                  <div className="payment-method-details">
                     <ul>
-                      <li>Send money to: {m.details.number}</li>
-                      <li>Account Name: {m.details.accountName}</li>
-                      <li>Enter the amount: ₱{m.details.amount.toLocaleString()}</li>
-                      <li>{m.details.instructions}</li>
+                      {method.details.map((d, i) => <li key={i}>{d}</li>)}
                     </ul>
-                  ) : (
-                    <ul>
-                      <li>Bank: {m.details.bank}</li>
-                      <li>Account Name: {m.details.accountName}</li>
-                      <li>Account Number: {m.details.accountNumber}</li>
-                      <li>Amount: ₱{m.details.amount.toLocaleString()}</li>
-                      <li>{m.details.instructions}</li>
-                    </ul>
-                  )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            {/* QR Code container below payment methods */}
+            <div
+              style={{
+                marginTop: 24,
+                background: '#fff',
+                borderRadius: 12,
+                boxShadow: '0 2px 8px #e5e7eb',
+                padding: 24,
+                textAlign: 'center',
+                maxWidth: 440,
+                marginLeft: 'auto',
+                marginRight: 'auto'
+              }}
+            >
+              <h3>Scan QR Code to Pay ({selectedMethodObj.name})</h3>
+              <QRCodeSVG value={selectedMethodObj.qrValue} size={180} />
+            </div>
+            <form onSubmit={handleSubmit} className="payment-form">
+              <label>
+                Payment Screenshot:
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleScreenshotChange}
+                />
+              </label>
+              {screenshotUrl && (
+                <div className="payment-screenshot-preview">
+                  <img src={screenshotUrl} alt="Screenshot Preview" />
+                </div>
+              )}
+              <button type="submit">Submit Payment</button>
+            </form>
+            {status && <div className="payment-status-message">{status}</div>}
           </div>
-          <div className="payment-warning">
-            <strong>Important</strong>
-            <br />
-            After making your payment, please submit the payment details below. Your application status will be updated once your payment is verified.
-          </div>
-          <form className="payment-form" onSubmit={handleSubmit}>
-            <label>
-              Payment Method:
-              <select value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
-                <option value="">Select Method</option>
-                {methods.map((m, idx) => (
-                  <option key={idx} value={m.type}>{m.type}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Reference Number:
-              <input
-                type="text"
-                value={reference}
-                onChange={e => setReference(e.target.value)}
-                placeholder="Enter reference number"
-              />
-            </label>
-            <label>
-              Amount:
-              <input
-                type="number"
-                value={amount}
-                onChange={e => setAmount(e.target.value)}
-                placeholder="1000"
-              />
-            </label>
-            <label>
-              Payment Screenshot:
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleScreenshotChange}
-              />
-            </label>
-            {screenshotUrl && (
-              <div className="payment-screenshot-preview">
-                <img src={screenshotUrl} alt="Screenshot Preview" />
-              </div>
-            )}
-            <button type="submit">Submit Payment</button>
-          </form>
-          {status && <div className="payment-status-message">{status}</div>}
-        </div>
-
-        <h3 style={{marginTop: 32}}>Payment History</h3>
-        <div className="payment-history">
-          {Array.isArray(history) && history.length === 0 ? (
-            <div>No payment history found.</div>
-          ) : (
-            Array.isArray(history) && (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Method</th>
-                    <th>Reference #</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history.map((item) => (
-                      <tr key={item.id}>
-                      <td>{new Date(item.created_at).toLocaleString()}</td>
-                      <td>{item.method}</td>
-                      <td>{item.reference_number}</td>
-                      <td>₱{Number(item.amount).toLocaleString()}</td>
-                      <td className={
-                        item.status === 'Pending'
-                          ? 'status-pending'
-                          : item.status === 'Verified'
-                            ? 'status-verified'
-                            : ''
-                      }>
-                        {item.status}
-                      </td>
+          <h3 style={{ marginTop: 32 }}>Payment History</h3>
+          <div className="payment-history">
+            {Array.isArray(history) && history.length === 0 ? (
+              <div>No payment history found.</div>
+            ) : (
+              Array.isArray(history) && (
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Method</th>
+                      <th>Reference #</th>
+                      <th>Amount</th>
+                      <th>Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )
-          )}
+                  </thead>
+                  <tbody>
+                    {history.map((item) => (
+                      <tr key={item.id}>
+                        <td>{new Date(item.created_at).toLocaleString()}</td>
+                        <td>{item.method}</td>
+                        <td>{item.reference_number}</td>
+                        <td>₱{Number(item.amount).toLocaleString()}</td>
+                        <td className={
+                          item.status === 'Pending'
+                            ? 'status-pending'
+                            : item.status === 'Verified'
+                              ? 'status-verified'
+                              : ''
+                        }>
+                          {item.status}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

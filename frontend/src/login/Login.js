@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // Import the CSS file
+import './Login.css';
 import ptcLogo from './images/ptclogo.png';
+import ptcfrontVideo from './images/ptcfront.mp4';
+import { useEffect } from 'react';
 
 function Login() {
   const [applicationId, setApplicationId] = useState('');
@@ -10,6 +12,15 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check sessionStorage for session-based login
+    const storedApplicationId = sessionStorage.getItem('application_id');
+    if (storedApplicationId) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
 
   const handleLogin = () => {
     setLoading(true);
@@ -40,7 +51,15 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-left">
-        <img src="./images/ptc.png" alt="Pateros Technological College" />
+        {/* Video background */}
+        <video
+          className="login-video-bg"
+          src={require('./images/ptcfront.mp4')}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
       </div>
 
       <div className="login-right">
@@ -59,7 +78,7 @@ function Login() {
             <input 
               type="text" 
               id="applicationId" 
-              placeholder=" " /* Empty placeholder for effect */
+              placeholder=" "
               required
               value={applicationId} 
               onChange={e => setApplicationId(e.target.value)} 

@@ -35,14 +35,18 @@ router.post('/', (req, res) => {
       const user = results[0];
       if (!user) return res.status(404).send('User not found');
 
-      // Compare stored hashed password with the provided password
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) return res.status(401).send('Incorrect password');
-
+      // If user.is_temp, compare plain text password
       if (user.is_temp) {
+        if (password !== user.password) {
+          return res.status(401).send('Incorrect password');
+        }
         createFolder(application_id);
         return res.status(200).json({ changePassword: true, application_id: user.application_id });
       }
+
+      // Otherwise, compare using bcrypt
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) return res.status(401).send('Incorrect password');
 
       createFolder(application_id);
       res.status(200).json({ dashboard: true, application_id: user.application_id });
@@ -56,7 +60,7 @@ router.post('/', (req, res) => {
         (err) => {
           if (err) {
             console.error("Database Insert Error:", err);
-            return res.status(500).json({ error: 'Failed to insert application_id' });
+            // Don't send error to client here, since login already succeeded
           }
           console.log(`Application ID ${application_id} inserted into doc_uploaded if missing.`);
         }

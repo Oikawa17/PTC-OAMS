@@ -5,12 +5,13 @@
 }
 
 .login-left {
-  width: 45vw; /* 44% of viewport width */
+  width: 55vw;
   height: 100vh;
   display: flex;
-  background: url('./images/ptcfront.png') no-repeat center center;
-  background-size: contain;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  /* Removed background-image for ptcfront.png */
 }
 
 /* Green overlay */
@@ -19,9 +20,21 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 45%;
+    width: 100%;
     height: 100%;
-    background: rgba(0, 128, 0, 0.4); /* Green tint */
+    background: rgba(0, 128, 0, 0.3); /* Green tint */
+    z-index: 2;
+}
+
+/* Add this for the video background */
+.login-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
 }
 
 .login-right {
@@ -32,12 +45,10 @@
   justify-content: center;
   background: url('./images/bglogo.png') no-repeat center;
   background-size: cover;
-   flex-direction: column; /* Aligns items in a vertical stack */
-    align-items: center;
-    justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
-
 
 login-right::before {
   content: "";
@@ -47,22 +58,21 @@ login-right::before {
   width: 50%;
   height: 100%;
   background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px); /* Subtle blur */
+  backdrop-filter: blur(4px);
 }
 
 .login-form {
   text-align: center;
   padding: 30px;
- background: rgba(255, 255, 255, 0.1); /* More transparent */
-  border-radius: 15px; /* Softer edges */
-  backdrop-filter: blur(12px); /* Applies blur effect */
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Refined shadow */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
   max-width: 400px;
   margin: auto;
   transition: all 0.3s ease-in-out;
 }
 
-/* Hover effect */
 .login-form:hover {
   transform: scale(1.02);
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
@@ -71,19 +81,16 @@ login-right::before {
 .login-logo-container {
     text-align: center;
     align-items: center;
-    margin-bottom: -80px; /* Space below the logo */
-    margin-top: 30px; /* Moves it higher */
+    margin-bottom: -80px;
+    margin-top: 30px;
 }
 
 .login-logo {
-    width: 150px; /* Adjust size */
+    width: 150px;
     display: block;
-    margin: 0 auto 15px; /* Ensures centering */
+    margin: 0 auto 15px;
 }
 
-
-
-/* Input Fields */
 input {
   width: 90%;
   padding: 12px;
@@ -94,13 +101,11 @@ input {
   transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
 }
 
-/* Input Hover */
 input:hover {
   border-color: #0073e6;
   box-shadow: 0px 4px 8px rgba(0, 115, 230, 0.3);
 }
 
-/* Button */
 button {
   width: 96%;
   padding: 12px;
@@ -113,13 +118,11 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease-in-out;
 }
 
-/* Button Hover */
 button:hover {
   background: #2C781D;
   transform: scale(1.09);
 }
 
-/* Forgot Password Link */
 p a {
   color: #0073e6;
   text-decoration: none;
@@ -138,11 +141,9 @@ p {
   font-family: 'Applied Sans Pro Condensed', sans-serif;
 }
 
-/* Floating Label Effect */
 .input-container {
   position: relative;
   margin-bottom: 20px;
-  
 }
 
 .input-container input {
@@ -152,8 +153,8 @@ p {
   border-radius: 8px;
   font-size: 16px;
   outline: none;
- background: rgb(255, 255, 255); /* Semi-transparent white */
-  color: #30a800; /* White text for contrast */
+  background: rgb(255, 255, 255);
+  color: #30a800;
 }
 
 .input-container label {
@@ -166,7 +167,6 @@ p {
   color: #979797;
 }
 
-/* Move label when focused or when typing */
 .input-container input:focus + label,
 .input-container input:not(:placeholder-shown) + label {
   top: -5px;
@@ -176,16 +176,13 @@ p {
 }
 
 .error-message {
-  color: rgba(255, 238, 0, 0.795); /* Makes text red */
+  color: rgba(255, 238, 0, 0.795);
   font-weight: bold;
   text-align: center;
   margin-bottom: 25px;
   font-size: 20px;
 }
 
-
-
-/* Smooth fade-in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -201,7 +198,6 @@ p {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 600px) {
   .login-form {
     padding: 20px;
