@@ -35,6 +35,7 @@ router.post('/', (req, res) => {
       const user = results[0];
       if (!user) return res.status(404).send('User not found');
 
+      // If user.is_temp, compare plain text password
 <<<<<<< HEAD
       // If user.is_temp, compare plain text password
 =======
@@ -47,9 +48,16 @@ router.post('/', (req, res) => {
         if (password !== user.password) {
           return res.status(401).send('Incorrect password');
         }
+        if (password !== user.password) {
+          return res.status(401).send('Incorrect password');
+        }
         createFolder(application_id);
         return res.status(200).json({ changePassword: true, application_id: user.application_id });
       }
+
+      // Otherwise, compare using bcrypt
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) return res.status(401).send('Incorrect password');
 
       // Otherwise, compare using bcrypt
       const match = await bcrypt.compare(password, user.password);
