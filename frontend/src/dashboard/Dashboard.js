@@ -23,12 +23,20 @@ const AnnouncementDetail = ({ title, detail, date, onBack }) => {
 };
 
 const headerImages = [
+<<<<<<< Updated upstream
   "https://www.paterostechnologicalcollege.edu.ph/ASSETS/IMAGES/HOME/banner-ptc.png",
   "https://www.paterostechnologicalcollege.edu.ph/ASSETS/IMAGES/COLLEGEPRESIDENT/arts.png",
   "https://www.paterostechnologicalcollege.edu.ph/ASSETS/IMAGES/COLLEGEPRESIDENT/csjs.png",
   "https://www.paterostechnologicalcollege.edu.ph/ASSETS/IMAGES/HOME/banner_do_something.png",
   "https://www.paterostechnologicalcollege.edu.ph/ASSETS/IMAGES/ADMINISTRATION/pppmo-banner.png",
   "https://www.paterostechnologicalcollege.edu.ph/ASSETS/IMAGES/ACADEMICAFFAIRS/IBOA2.png",
+=======
+  "https://scontent.fmnl3-3.fna.fbcdn.net/v/t1.15752-9/495265190_674529518814894_3453652155819065307_n.png?_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_ohc=jXr30CaQ0aAQ7kNvwFUIzVR&_nc_oc=AdnR_wGYfMxhYi0G2O3Mw89LbFMCEwqyTcizcfpf37RsKvfX3RGeYJRoxC4brBj9JdA&_nc_zt=23&_nc_ht=scontent.fmnl3-3.fna&oh=03_Q7cD2gFXBHqrG7N_2yFqY9syCi0G0_X7bQ8VR-WKp-fzdTXD-Q&oe=686847DD",
+  "https://scontent.fmnl3-4.fna.fbcdn.net/v/t1.15752-9/495265178_691825280442869_8348764696181177059_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_ohc=0CDNLcB2eWYQ7kNvwGt4_W4&_nc_oc=Adltmlj1djLkYVyLl_mcnMglJimau2YLyOORo45bMmAgMl6JR7K8uq0szeY3WjngIi8&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&oh=03_Q7cD2gHRK0Em6Jlh8w99VXziqDQfzfATZni4btLdJ1ZsZd1BWw&oe=6868A320",
+  "https://scontent.fmnl37-1.fna.fbcdn.net/v/t1.15752-9/495266436_9865451296843227_8945772980639061437_n.png?_nc_cat=106&ccb=1-7&_nc_sid=9f807c&_nc_ohc=PKliysr-facQ7kNvwGmy-wB&_nc_oc=AdnD6Z4cxviXloy0N3BSm-I1fidImsEFMX07GH1kG-we7B4QaoOO1rUH9-_tj9qElY8&_nc_zt=23&_nc_ht=scontent.fmnl37-1.fna&oh=03_Q7cD2gHnXvERLBIWXJLnt1I7UTCrj-CTVnRntc-bsPiZjV4kDA&oe=68683E1E",
+  "https://scontent.fmnl3-4.fna.fbcdn.net/v/t1.15752-9/494817575_1063489708983575_7724780411432873541_n.png?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_ohc=XOivRvn0IxwQ7kNvwGlGlx2&_nc_oc=Adkp3hEDT1W1oWy4PKZq7hNg034v_UeZa2Vd0wEfW_xDVEQqqRQOOdK7IXbac_rJnP4&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&oh=03_Q7cD2gGsELf8v2LLLOtsFnx0XO-veWNg5C--LmFsc-T1NJ-oMA&oe=686863DE",
+  "https://scontent.fmnl3-4.fna.fbcdn.net/v/t1.15752-9/494689298_680391114841502_110094531490660148_n.png?_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_ohc=-yQpDiatCNQQ7kNvwEAulee&_nc_oc=AdkArFAvwxvCV-2bzOFZ4VsKU3xFfoZq4D9HKUJf_bObC2I8xKNTdZykA31iuIcWQ7s&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&oh=03_Q7cD2gEAVzSsE-61qQdR82Hm0Xc8CgcJ_pbYMIWrwSlsJJ9A4A&oe=68685575",
+>>>>>>> Stashed changes
 ];
 
 function Dashboard() {
